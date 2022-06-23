@@ -2,11 +2,35 @@
 
 class Game {
   constructor() {
+    this.time = 0;
     this.player = null; // will store an instance of the class Player
+    this.obstacleArr = []; // will store multiple instances of the class Obstacle
   }
   start() {
     this.player = new Player();
     this.attachEventListeners();
+
+
+    setInterval(() => {
+
+      // move all obstacles
+      this.obstacleArr.forEach((obstacleInstance) => {
+        obstacleInstance.moveDown();
+      });
+
+      // create new obstacle
+      if (this.time % 60 === 0) {
+        const newObstacle = new Obstacle();
+        this.obstacleArr.push(newObstacle);
+      }
+
+      this.time++;
+
+    }, 50);
+
+
+
+
   }
   attachEventListeners() {
     document.addEventListener("keydown", (event) => {
@@ -22,34 +46,69 @@ class Game {
 
 class Player {
   constructor() {
-    this.positionX = 50;
+    this.positionX = 45;
     this.positionY = 0;
-    this.createDomElement();
+
+    // this.domElement = null;
+    // this.createDomElement();
+
+    this.domElement = this.createDomElement();
+
   }
   createDomElement() {
-    // // step1: create the element:
-    const domElement = document.createElement('div');
+    // create dom element
+    const newElm = document.createElement('div');
 
-    // // step2: add content or modify (ex. innerHTML...)
-    // myNewImg.setAttribute("src", "./images/something.jpg")
-    domElement.id = "player";
-    domElement.style.backgroundColor = "green";
+    // set id and css
+    newElm.id = "player";
+    newElm.style.left = this.positionX + "vw";
+    newElm.style.bottom = this.positionY + "vh";
 
-    // //step3: append to the dom: `parentElm.appendChild()`
+    // append to the dom
     const boardElm = document.getElementById("board"); //
-    boardElm.appendChild(domElement);
+    boardElm.appendChild(newElm);
+
+    return newElm;
   }
   moveLeft() {
     this.positionX--;
-    console.log(`current horizontal position.... ${this.positionX}`)
+    this.domElement.style.left = this.positionX + "vw";
   }
   moveRight() {
     this.positionX++;
-    console.log(`current horizontal position.... ${this.positionX}`)
+    this.domElement.style.left = this.positionX + "vw";
   }
 }
 
 
+class Obstacle {
+  constructor() {
+    this.positionX = 45;
+    this.positionY = 90;
+
+    this.domElement = this.createDomElement();
+
+  }
+  createDomElement() {
+    // create dom element
+    const newElm = document.createElement('div');
+
+    // set id and css
+    newElm.className = "obstacle";
+    newElm.style.left = this.positionX + "vw";
+    newElm.style.bottom = this.positionY + "vh";
+
+    // append to the dom
+    const boardElm = document.getElementById("board"); //
+    boardElm.appendChild(newElm);
+
+    return newElm;
+  }
+  moveDown() {
+    this.positionY--;
+    this.domElement.style.bottom = this.positionY + "vh";
+  }
+}
 
 
 

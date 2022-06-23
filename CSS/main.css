@@ -6,10 +6,19 @@ body {
   width: 100vw;
   height: 100vh;
   background-color: rgb(255, 145, 163);
+  position: relative;
 }
 
 #player {
-  width: 100px;
-  height: 50px;
-  background-color: crimson;
+  width: 10vw;
+  height: 20vh;
+  background-color: rgb(241, 173, 45);
+  position: absolute;
+}
+
+.obstacle {
+  width: 10vw;
+  height: 10vh;
+  background-color: rgb(206, 7, 83);
+  position: absolute;
 }
